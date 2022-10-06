@@ -1,22 +1,25 @@
 import bpy
-import random
+import sys
+import os
+
+dir = os.path.dirname(bpy.data.filepath)
+if not dir in sys.path:
+    sys.path.append(dir)
+
+import scene_cleaner
+
+import imp
+imp.reload(scene_cleaner)
+
+from scene_cleaner import SceneCleaner
+from utils import GenerativeArtAPI
+
+
+def do_art():
+    SceneCleaner()()
+    GenerativeArtAPI().generate_art(3)
 
 
 if __name__ == '__main__':
-    X_SPACING = 2.1
-    Y_SPACING = 2.1
-
-    for x in range(10):
-        for y in range(8):
-            if x == 0 and y == 0:
-                continue
-            panelka = bpy.data.objects['panelka'].copy()
-            bpy.context.collection.objects.link(panelka)
-
-            panelka.location.x += x * X_SPACING
-            panelka.location.y += y * Y_SPACING
-            panelka.location.z += random.random()
-            panelka.rotation_euler.z += 3.14 * random.random()
-            panelka.rotation_euler.x += 3.14 * random.random()
-            panelka.rotation_euler.y += 3.14 * random.random()
+    do_art()
 
